@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ivvhmhfqjfi2"]
+
+[ext_resource type="Script" uid="uid://byfeexkugoesf" path="res://rts systems/rts_player/main.gd" id="1_dk7cu"]
+
+[node name="RTSPlayer" type="Node" unique_id=1988222947]
+script = ExtResource("1_dk7cu")
