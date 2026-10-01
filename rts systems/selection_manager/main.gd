@@ -24,8 +24,15 @@ func _process(delta: float) -> void:
 	pass
 
 ## public methods
+func dragbox_select_objects(object_list:Array, dragbox_rect: Rect2) -> void:
+	for object:Node3D in (object_list as Array[Node3D]):
+		var position_in_2d: Vector2 = get_viewport().get_camera_3d().unproject_position(object.global_position)
+		if dragbox_rect.has_point(position_in_2d):
+			_select_object(object)
+		else:
+			_deselect_object(object)
+
 func update_selection_rectangle(new_rect: Rect2) -> void:
-	new_rect = new_rect.abs()
 	ui_dragbox.position = new_rect.position
 	ui_dragbox.size = new_rect.size
 	
@@ -39,3 +46,11 @@ func dragbox_hide() -> void:
 	ui_dragbox.hide()
 
 ## private methods
+func _select_object(object:Node) -> void:
+	object.selected = true
+
+func _deselect_object(object:Node) -> void:
+	object.selected = false
+
+func _toggle_select_object(object:Node) -> void:
+	object.selected = !object.selected

@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bi0kldfrj0qor"]
+
+[ext_resource type="ArrayMesh" uid="uid://dr6w033vehxnf" path="res://rts_objects/rts_units/basic_unit/mesh.tres" id="1_06cpt"]
+[ext_resource type="PackedScene" uid="uid://dcwwemlx315n6" path="res://rts_objects/rts_components/sprite3d_circle_selection.tscn" id="2_hrxf6"]
+[ext_resource type="Script" uid="uid://bnbp5dbucdfr8" path="res://rts_objects/rts_units/basic_unit/main.gd" id="2_kkn1d"]
+
+[node name="BasicUnit01" type="MeshInstance3D" unique_id=1286137822]
+mesh = ExtResource("1_06cpt")
+script = ExtResource("2_kkn1d")
+
+[node name="CircleSelection" parent="." unique_id=43511073 instance=ExtResource("2_hrxf6")]

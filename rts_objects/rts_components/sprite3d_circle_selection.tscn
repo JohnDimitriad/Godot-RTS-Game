@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dcwwemlx315n6"]
+
+[sub_resource type="Gradient" id="Gradient_hrxf6"]
+offsets = PackedFloat32Array(0.5232558, 0.64534885, 0.68604654)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hhfpc"]
+gradient = SubResource("Gradient_hrxf6")
+width = 128
+height = 128
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="CircleSelection" type="Sprite3D" unique_id=43511073]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+axis = 1
+texture = SubResource("GradientTexture2D_hhfpc")

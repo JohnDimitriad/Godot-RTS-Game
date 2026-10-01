@@ -3,7 +3,8 @@ extends Node
 ## enums
 
 ## consts
-const type_rts_camera := preload("res://rts systems/rts_camera/main.gd")
+const type_hint_rts_camera: Script = preload("../rts_camera/main.gd")
+const type_hint_selection_manager: Script = preload("../selection_manager/main.gd")
 
 ## exports
 
@@ -15,8 +16,9 @@ var show_dragbox:bool = false
 ## private vars
 
 ## onready vars
-@onready var rts_camera:= $"../RTSCamera"
-@onready var selection_manager:= $SelectionManager
+@onready var rts_camera: type_hint_rts_camera = $"../RTSCamera"
+@onready var selection_manager: type_hint_selection_manager = $SelectionManager
+@onready var units: Node = $"../Units"
 
 ## built-in override methods
 
@@ -36,27 +38,29 @@ func selection_dragbox() -> void:
 			mouse_dragbox_end_position = mouse_dragbox_start_position
 		
 		mouse_dragbox_end_position = get_viewport().get_mouse_position()
-		selection_manager.update_selection_rectangle(Rect2(mouse_dragbox_start_position, mouse_dragbox_end_position - mouse_dragbox_start_position))
+		selection_manager.update_selection_rectangle(Rect2(mouse_dragbox_start_position, mouse_dragbox_end_position - mouse_dragbox_start_position).abs())
 		
 	if Input.is_action_just_released("input_action_mouseclick_left"):
+		var dragbox_rectangle: Rect2 = Rect2(mouse_dragbox_start_position, mouse_dragbox_end_position - mouse_dragbox_start_position).abs()
+		selection_manager.dragbox_select_objects(units.get_children(),dragbox_rectangle)
 		mouse_dragbox_start_position = Vector2.ZERO
 		mouse_dragbox_end_position = Vector2.ZERO
 		selection_manager.dragbox_hide()
 
-func camera_inputs(camera: type_rts_camera, delta:float) -> void:
+func camera_inputs(camera: type_hint_rts_camera, delta:float) -> void:
 	camera_pan(camera,delta)
 	camera_move(camera,delta)
 	camera_rotate(camera,delta)
 	camera_zoom(camera,delta)
 
-func camera_pan(camera: type_rts_camera, delta: float) -> void:
+func camera_pan(camera: type_hint_rts_camera, delta: float) -> void:
 	if Input.mouse_mode != Input.MOUSE_MODE_CONFINED:
 		return
 	var mouse_pos: Vector2 = get_viewport().get_mouse_position()
 	var viewport_size: Vector2 =  get_viewport().get_visible_rect().size
 	camera.camera_pan(mouse_pos,viewport_size,delta)
 
-func camera_move(camera:type_rts_camera, delta: float) -> void:
+func camera_move(camera:type_hint_rts_camera, delta: float) -> void:
 	var direction: Vector2 = Vector2.ZERO
 	
 	if Input.is_action_pressed("input_action_camera_forwards"): 
@@ -72,7 +76,7 @@ func camera_move(camera:type_rts_camera, delta: float) -> void:
 		return # no movement
 	camera.camera_move(direction,delta)
 
-func camera_rotate(camera: type_rts_camera,delta: float) -> void:
+func camera_rotate(camera: type_hint_rts_camera,delta: float) -> void:
 	var direction: float = 0
 	
 	if Input.is_action_pressed("input_action_camera_rotate_right"):
@@ -84,7 +88,7 @@ func camera_rotate(camera: type_rts_camera,delta: float) -> void:
 		return # no rotation
 	camera.camera_rotate(direction,delta)
 
-func camera_zoom(camera: type_rts_camera, delta:float) -> void:
+func camera_zoom(camera: type_hint_rts_camera, delta:float) -> void:
 	var direction: float = 0
 	
 	if (Input.is_action_just_released("input_action_camera_zoom_in") or Input.is_action_pressed("input_action_camera_zoom_in")):

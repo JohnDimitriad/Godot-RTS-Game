@@ -5,6 +5,10 @@
 [ext_resource type="PackedScene" uid="uid://ivvhmhfqjfi2" path="res://rts systems/rts_player/main.tscn" id="2_t7cbl"]
 [ext_resource type="PackedScene" uid="uid://b3q3itbajaqop" path="res://rts systems/rts_camera/main.tscn" id="3_dp36p"]
 [ext_resource type="PackedScene" uid="uid://qb76dchriefu" path="res://rts systems/selection_manager/main.tscn" id="3_lhppi"]
+[ext_resource type="PackedScene" uid="uid://bi0kldfrj0qor" path="res://rts_objects/rts_units/basic_unit/main.tscn" id="5_rlhik"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_hhfpc"]
+size = Vector3(2, 1, 2)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bvrni"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -27,9 +31,6 @@ texture_filter = 4
 [sub_resource type="PlaneMesh" id="PlaneMesh_hhfpc"]
 size = Vector2(250, 250)
 
-[sub_resource type="PrismMesh" id="PrismMesh_hhfpc"]
-size = Vector3(2, 1, 2)
-
 [node name="Main" type="Node" unique_id=361142246]
 script = ExtResource("1_bvrni")
 
@@ -44,7 +45,30 @@ metadata/_edit_lock_ = true
 
 [node name="Units" type="Node" parent="RTSWorld" unique_id=1634756419]
 
+[node name="BasicUnit01" parent="RTSWorld/Units" unique_id=1286137822 instance=ExtResource("5_rlhik")]
+
+[node name="BasicUnit02" parent="RTSWorld/Units" unique_id=1720276649 instance=ExtResource("5_rlhik")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.667305, 0, 4.2680054)
+
+[node name="BasicUnit03" parent="RTSWorld/Units" unique_id=1053504969 instance=ExtResource("5_rlhik")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.9981537, 0, 3.11839)
+
+[node name="BasicUnit04" parent="RTSWorld/Units" unique_id=1803982352 instance=ExtResource("5_rlhik")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7385535, 0, 7.166377)
+
 [node name="Buildings" type="Node" parent="RTSWorld" unique_id=1159001464]
+
+[node name="tent1" type="MeshInstance3D" parent="RTSWorld/Buildings" unique_id=307592204]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.430203, 0.5, 0)
+mesh = SubResource("PrismMesh_hhfpc")
+
+[node name="tent2" type="MeshInstance3D" parent="RTSWorld/Buildings" unique_id=1912017797]
+transform = Transform3D(-0.36974674, 0, -0.9291326, 0, 1, 0, 0.9291326, 0, -0.36974674, 11.772191, 0.4891858, 6.901443)
+mesh = SubResource("PrismMesh_hhfpc")
+
+[node name="tent3" type="MeshInstance3D" parent="RTSWorld/Buildings" unique_id=1496417248]
+transform = Transform3D(0.7965299, 0, -0.6045991, 0, 1, 0, 0.6045991, 0, 0.7965299, 11.272184, 0.3829136, 0.35973263)
+mesh = SubResource("PrismMesh_hhfpc")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="RTSWorld" unique_id=1237343256]
 environment = SubResource("Environment_t7cbl")
@@ -58,18 +82,7 @@ directional_shadow_max_distance = 25.0
 [node name="grass" type="MeshInstance3D" parent="RTSWorld" unique_id=1860180290]
 material_override = SubResource("StandardMaterial3D_lhppi")
 mesh = SubResource("PlaneMesh_hhfpc")
-
-[node name="tent1" type="MeshInstance3D" parent="RTSWorld" unique_id=307592204]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.430203, 0.5, 0)
-mesh = SubResource("PrismMesh_hhfpc")
-
-[node name="tent2" type="MeshInstance3D" parent="RTSWorld" unique_id=1912017797]
-transform = Transform3D(-0.36974674, 0, -0.9291326, 0, 1, 0, 0.9291326, 0, -0.36974674, 11.772191, 0.4891858, 6.901443)
-mesh = SubResource("PrismMesh_hhfpc")
-
-[node name="tent3" type="MeshInstance3D" parent="RTSWorld" unique_id=1496417248]
-transform = Transform3D(0.7965299, 0, -0.6045991, 0, 1, 0, 0.6045991, 0, 0.7965299, 11.272184, 0.3829136, 0.35973263)
-mesh = SubResource("PrismMesh_hhfpc")
+metadata/_edit_lock_ = true
 
 [node name="UI" type="Control" parent="." unique_id=1370029497]
 layout_mode = 3
