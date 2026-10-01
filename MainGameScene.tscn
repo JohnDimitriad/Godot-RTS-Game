@@ -2,8 +2,9 @@
 
 [ext_resource type="Script" uid="uid://d2jlxed31byh3" path="res://main_game_scene.gd" id="1_bvrni"]
 [ext_resource type="Texture2D" uid="uid://g2fb33jb6cpk" path="res://images/grass1.png" id="2_dp36p"]
-[ext_resource type="PackedScene" uid="uid://ivvhmhfqjfi2" path="res://rts systems/rts_player/rts_player.tscn" id="2_t7cbl"]
-[ext_resource type="PackedScene" uid="uid://b3q3itbajaqop" path="res://rts systems/rts_camera/rts_camera.tscn" id="3_dp36p"]
+[ext_resource type="PackedScene" uid="uid://ivvhmhfqjfi2" path="res://rts systems/rts_player/main.tscn" id="2_t7cbl"]
+[ext_resource type="PackedScene" uid="uid://b3q3itbajaqop" path="res://rts systems/rts_camera/main.tscn" id="3_dp36p"]
+[ext_resource type="PackedScene" uid="uid://qb76dchriefu" path="res://rts systems/selection_manager/main.tscn" id="3_lhppi"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bvrni"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -36,6 +37,8 @@ script = ExtResource("1_bvrni")
 metadata/_edit_lock_ = true
 
 [node name="RTSPlayer" parent="RTSWorld" unique_id=1988222947 instance=ExtResource("2_t7cbl")]
+
+[node name="SelectionManager" parent="RTSWorld/RTSPlayer" unique_id=1854171191 instance=ExtResource("3_lhppi")]
 
 [node name="RTSCamera" parent="RTSWorld" unique_id=946512269 instance=ExtResource("3_dp36p")]
 

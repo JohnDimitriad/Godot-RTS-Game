@@ -8,11 +8,15 @@ const type_rts_camera := preload("res://rts systems/rts_camera/main.gd")
 ## exports
 
 ## public vars
+var mouse_dragbox_start_position: Vector2 = Vector2.ZERO
+var mouse_dragbox_end_position: Vector2 = Vector2.ZERO
+var show_dragbox:bool = false
 
 ## private vars
 
 ## onready vars
-@onready var rts_camera: Node3D = $"../RTSCamera"
+@onready var rts_camera:= $"../RTSCamera"
+@onready var selection_manager:= $SelectionManager
 
 ## built-in override methods
 
@@ -22,9 +26,23 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	camera_inputs(rts_camera,delta)
-	pass
+	selection_dragbox()
 
 ## public methods
+func selection_dragbox() -> void:
+	if Input.is_action_pressed("input_action_mouseclick_left"):
+		if mouse_dragbox_start_position == Vector2.ZERO:
+			mouse_dragbox_start_position = get_viewport().get_mouse_position()
+			mouse_dragbox_end_position = mouse_dragbox_start_position
+		
+		mouse_dragbox_end_position = get_viewport().get_mouse_position()
+		selection_manager.update_selection_rectangle(Rect2(mouse_dragbox_start_position, mouse_dragbox_end_position - mouse_dragbox_start_position))
+		
+	if Input.is_action_just_released("input_action_mouseclick_left"):
+		mouse_dragbox_start_position = Vector2.ZERO
+		mouse_dragbox_end_position = Vector2.ZERO
+		selection_manager.dragbox_hide()
+
 func camera_inputs(camera: type_rts_camera, delta:float) -> void:
 	camera_pan(camera,delta)
 	camera_move(camera,delta)

@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://qb76dchriefu"]
+
+[ext_resource type="Script" uid="uid://ct5r6cacwk47p" path="res://rts systems/selection_manager/main.gd" id="1_m4ydl"]
+[ext_resource type="Texture2D" uid="uid://b5f5qa1hjrsoh" path="res://images/ui_rts_dragbox_selections_01.png" id="2_x25xh"]
+
+[node name="SelectionManager" type="Node" unique_id=1854171191]
+script = ExtResource("1_m4ydl")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=2115135163]
+texture_filter = 1
+offset_right = 204.0
+offset_bottom = 215.0
+texture = ExtResource("2_x25xh")
+region_rect = Rect2(4, 177, 14, 14)
