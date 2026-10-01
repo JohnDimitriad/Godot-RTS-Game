@@ -11,7 +11,7 @@ extends Node
 
 ## private vars
 
-## onready vars
+## onready vars (use obj_ for node references)
 
 ## built-in override methods
 

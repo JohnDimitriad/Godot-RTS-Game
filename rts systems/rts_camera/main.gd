@@ -17,12 +17,12 @@ var cam_zoom_velocity: float = 0.0
 ## private vars
 
 ## onready vars
-@onready var camera_3d: Camera3D = $Camera3D
+@onready var obj_camera_3d: Camera3D = $Camera3D
 
 ## built-in override methods
 
 func _ready() -> void:
-	_setup_camera(camera_3d)
+	_setup_camera(obj_camera_3d)
 
 func _process(delta: float) -> void:
 	_apply_movement_velocity()
@@ -60,13 +60,13 @@ func _setup_camera(cam: Camera3D) -> void:
 func _apply_movement_velocity() -> void:
 	if cam_movement_velocity != Vector3.ZERO:
 		var camera_zoom_speed: float = remap(
-			camera_3d.position.z,
+			obj_camera_3d.position.z,
 			camera_zoom_range.x,camera_zoom_range.y,
 			camera_move_speed.x,camera_move_speed.y)
 		translate_object_local(cam_movement_velocity * camera_zoom_speed)
 		cam_movement_velocity = Vector3.ZERO
 
-func _apply_zoom_velocity(cam: Camera3D = camera_3d) -> void:
+func _apply_zoom_velocity(cam: Camera3D = obj_camera_3d) -> void:
 	if cam_zoom_velocity != 0:
 		var calculated_zoom: float = cam.position.z + cam_zoom_velocity
 		if (calculated_zoom > camera_zoom_range.x) and (calculated_zoom < camera_zoom_range.y):

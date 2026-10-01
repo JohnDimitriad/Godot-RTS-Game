@@ -3,9 +3,14 @@
 [ext_resource type="ArrayMesh" uid="uid://dr6w033vehxnf" path="res://rts_objects/rts_units/basic_unit/mesh.tres" id="1_06cpt"]
 [ext_resource type="PackedScene" uid="uid://dcwwemlx315n6" path="res://rts_objects/rts_components/sprite3d_circle_selection.tscn" id="2_hrxf6"]
 [ext_resource type="Script" uid="uid://bnbp5dbucdfr8" path="res://rts_objects/rts_units/basic_unit/main.gd" id="2_kkn1d"]
+[ext_resource type="PackedScene" uid="uid://bppnp7tcnlto4" path="res://rts_objects/rts_components/meshinstance3d_selection_aabb.tscn" id="4_dnvy3"]
 
 [node name="BasicUnit01" type="MeshInstance3D" unique_id=1286137822]
 mesh = ExtResource("1_06cpt")
 script = ExtResource("2_kkn1d")
 
 [node name="CircleSelection" parent="." unique_id=43511073 instance=ExtResource("2_hrxf6")]
+
+[node name="SelectionAABB" parent="." unique_id=715499252 instance=ExtResource("4_dnvy3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03251463, 1.210752, 0.029447734)
+top_level = true
