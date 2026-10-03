@@ -3,8 +3,8 @@ extends Node
 ## enums
 
 ## consts
-const type_hint_rts_camera: Script = preload("../rts_camera/main.gd")
-const type_hint_selection_manager: Script = preload("../selection_manager/main.gd")
+const script_rts_camera: Script = preload("../rts_camera/main.gd")
+const script_selection_manager: Script = preload("../selection_manager/main.gd")
 
 ## exports
 
@@ -16,8 +16,8 @@ var _mouse_dragbox_end_position: Vector2 = Vector2.ZERO
 var _player_selection:Array[Node3D] = []
 
 ## onready vars
-@onready var obj_rts_camera: type_hint_rts_camera = $"../RTSCamera"
-@onready var obj_selection_manager: type_hint_selection_manager = $SelectionManager
+@onready var obj_rts_camera: script_rts_camera = $"../RTSCamera"
+@onready var obj_selection_manager: script_selection_manager = $SelectionManager
 @onready var obj_units_nodetree: Node = $"../Units"
 
 ## built-in override methods
@@ -28,15 +28,33 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_camera_inputs(obj_rts_camera,delta)
-	update_selection_dragbox()
+	update_player_inputs()
 
-## public methods
+## public methods 
+func get_mouse_position_collision_point_on_map() -> Vector3:
+	var mouse_position: Vector2 = get_viewport().get_mouse_position()
+	var camera: Camera3D = get_viewport().get_camera_3d()
+	var ray_normal: Vector3 = camera.project_ray_normal(mouse_position)
+	var query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.new()
+	query.from = camera.global_position
+	query.to = ray_normal * 1000
+	var collision_ray: Dictionary = camera.get_world_3d().direct_space_state.intersect_ray(query)
+	if collision_ray.size():
+		return collision_ray.position
+	return Vector3.ZERO
+
 func update_player_selection(new_obj_selection:Array[Node3D]) -> void:
 	obj_selection_manager.deselect_array(_player_selection)
 	_player_selection = new_obj_selection
 	obj_selection_manager.select_array(_player_selection)
 
-func update_selection_dragbox() -> void:
+func move_units_to_mouse() -> void:
+	var mouse_collision_on_map: Vector3 = get_mouse_position_collision_point_on_map()
+	if mouse_collision_on_map != Vector3.ZERO:
+		for object:Node3D in _player_selection:
+			object.new_path(mouse_collision_on_map)
+
+func update_player_inputs() -> void:
 	if Input.is_action_pressed("input_action_mouseclick_left"):
 		if _mouse_dragbox_start_position == Vector2.ZERO:
 			_mouse_dragbox_start_position = get_viewport().get_mouse_position()
@@ -60,22 +78,26 @@ func update_selection_dragbox() -> void:
 		_mouse_dragbox_start_position = Vector2.ZERO
 		_mouse_dragbox_end_position = Vector2.ZERO
 		obj_selection_manager.dragbox_hide()
+		
+	if Input.is_action_just_released("input_action_mouseclick_right"):
+		if _player_selection.size() > 0:
+			move_units_to_mouse()
 
 ## private methods
-func _camera_inputs(camera: type_hint_rts_camera, delta:float) -> void:
+func _camera_inputs(camera: script_rts_camera, delta:float) -> void:
 	_camera_pan(camera,delta)
 	_camera_move(camera,delta)
 	_camera_rotate(camera,delta)
 	_camera_zoom(camera,delta)
 
-func _camera_pan(camera: type_hint_rts_camera, delta: float) -> void:
+func _camera_pan(camera: script_rts_camera, delta: float) -> void:
 	if Input.mouse_mode != Input.MOUSE_MODE_CONFINED:
 		return
 	var mouse_pos: Vector2 = get_viewport().get_mouse_position()
 	var viewport_size: Vector2 =  get_viewport().get_visible_rect().size
 	camera.camera_pan(mouse_pos,viewport_size,delta)
 
-func _camera_move(camera:type_hint_rts_camera, delta: float) -> void:
+func _camera_move(camera:script_rts_camera, delta: float) -> void:
 	var direction: Vector2 = Vector2.ZERO
 	
 	if Input.is_action_pressed("input_action_camera_forwards"): 
@@ -91,7 +113,7 @@ func _camera_move(camera:type_hint_rts_camera, delta: float) -> void:
 		return # no movement
 	camera.camera_move(direction,delta)
 
-func _camera_rotate(camera: type_hint_rts_camera,delta: float) -> void:
+func _camera_rotate(camera: script_rts_camera,delta: float) -> void:
 	var direction: float = 0
 	
 	if Input.is_action_pressed("input_action_camera_rotate_right"):
@@ -103,7 +125,7 @@ func _camera_rotate(camera: type_hint_rts_camera,delta: float) -> void:
 		return # no rotation
 	camera.camera_rotate(direction,delta)
 
-func _camera_zoom(camera: type_hint_rts_camera, delta:float) -> void:
+func _camera_zoom(camera: script_rts_camera, delta:float) -> void:
 	var direction: float = 0
 	
 	if (Input.is_action_just_released("input_action_camera_zoom_in") or Input.is_action_pressed("input_action_camera_zoom_in")):

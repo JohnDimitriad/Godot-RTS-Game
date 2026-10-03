@@ -14,3 +14,4 @@ script = ExtResource("2_kkn1d")
 [node name="SelectionAABB" parent="." unique_id=715499252 instance=ExtResource("4_dnvy3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03251463, 1.210752, 0.029447734)
 top_level = true
+visible = false

@@ -1,5 +1,5 @@
 # meta-default: true
-extends Node
+extends RefCounted
 
 ## enums
 
