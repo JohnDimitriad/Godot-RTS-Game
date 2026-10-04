@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cfxvpct1is8h4"]
+
+[ext_resource type="ArrayMesh" uid="uid://b1wiib7ygej4n" path="res://rts_objects/rts_resources/wood/mesh.tres" id="1_pbuul"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" unique_id=1607044691]
+mesh = ExtResource("1_pbuul")

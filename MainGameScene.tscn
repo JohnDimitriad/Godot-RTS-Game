@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b3q3itbajaqop" path="res://rts systems/rts_camera/main.tscn" id="3_dp36p"]
 [ext_resource type="PackedScene" uid="uid://qb76dchriefu" path="res://rts systems/selection_manager/main.tscn" id="3_lhppi"]
 [ext_resource type="PackedScene" uid="uid://bw5pykitu26jy" path="res://rts_objects/rts_units/basic_unit/main.tscn" id="5_rlhik"]
+[ext_resource type="PackedScene" uid="uid://cfxvpct1is8h4" path="res://rts_objects/rts_resources/wood/main.tscn" id="7_holyq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bvrni"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -115,6 +116,10 @@ mesh = SubResource("PrismMesh_hhfpc")
 [node name="tent3" type="MeshInstance3D" parent="RTSWorld/Buildings" unique_id=1203014999 groups=["rts_map"]]
 transform = Transform3D(-0.6449626, 0, -0.7642141, 0, 1, 0, 0.7642141, 0, -0.6449626, 7.6859517, 0.50000095, 8.32282)
 mesh = SubResource("PrismMesh_hhfpc")
+
+[node name="Resources" type="Node" parent="RTSWorld" unique_id=922459218]
+
+[node name="MeshInstance3D" parent="RTSWorld/Resources" unique_id=1607044691 instance=ExtResource("7_holyq")]
 
 [node name="UI" type="Control" parent="." unique_id=1370029497]
 layout_mode = 3
