@@ -3,8 +3,9 @@ extends Node
 ## enums
 
 ## consts
-const script_rts_camera: Script = preload("../rts_camera/main.gd")
-const script_selection_manager: Script = preload("../selection_manager/main.gd")
+const script_rts_camera:= preload("res://rts systems/rts_camera/main.gd")
+const script_3d_ui:= preload("res://rts_objects/3d_ui/main.gd")
+const script_selection_manager:= preload("res://rts systems/selection_manager/main.gd")
 
 ## exports
 
@@ -19,6 +20,7 @@ var _player_selection:Array[Node3D] = []
 @onready var obj_rts_camera: script_rts_camera = $"../RTSCamera"
 @onready var obj_selection_manager: script_selection_manager = $SelectionManager
 @onready var obj_units_nodetree: Node = $"../Units"
+@onready var obj_resources_nodetree: Node = $"../Resources"
 
 ## built-in override methods
 
@@ -37,11 +39,29 @@ func get_mouse_position_collision_point_on_map() -> Vector3:
 	var ray_normal: Vector3 = camera.project_ray_normal(mouse_position)
 	var query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.new()
 	query.from = camera.global_position
-	query.to = ray_normal * 1000
+	query.to = camera.global_position + (ray_normal * 1000)
 	var collision_ray: Dictionary = camera.get_world_3d().direct_space_state.intersect_ray(query)
 	if collision_ray.size():
 		return collision_ray.position
 	return Vector3.ZERO
+
+func return_resource_object_that_intersects_mouse() -> Dictionary:
+	var mouse_pos:Vector2 = get_viewport().get_mouse_position()
+	var camera: Camera3D = get_viewport().get_camera_3d()
+	var potential_targets: Array[Node3D] = []
+	for resource: Node3D in obj_resources_nodetree.get_children():
+		if obj_selection_manager.select_object_by_aabb(resource, mouse_pos, camera):
+			potential_targets.append(resource)
+		
+	if potential_targets.size():
+		var closest_resource: Node3D = potential_targets[0]
+		for possible_closest_resource:Node3D in potential_targets:
+			var closest_yet: float = closest_resource.global_position.distance_squared_to(camera.global_position)
+			if possible_closest_resource.global_position.distance_squared_to(camera.global_position) < closest_yet:
+				closest_resource = possible_closest_resource
+		
+		return {"collider": closest_resource, "position":closest_resource.global_position}
+	return {}
 
 func update_player_selection(new_obj_selection:Array[Node3D]) -> void:
 	obj_selection_manager.deselect_array(_player_selection)
@@ -53,6 +73,7 @@ func move_units_to_mouse() -> void:
 	if mouse_collision_on_map != Vector3.ZERO:
 		for object:Node3D in _player_selection:
 			object.new_path(mouse_collision_on_map)
+	script_3d_ui.create_expanding_circle(self,mouse_collision_on_map)
 
 func update_player_inputs() -> void:
 	if Input.is_action_pressed("input_action_mouseclick_left"):
@@ -81,7 +102,15 @@ func update_player_inputs() -> void:
 		
 	if Input.is_action_just_released("input_action_mouseclick_right"):
 		if _player_selection.size() > 0:
-			move_units_to_mouse()
+			var resource_found: Dictionary = return_resource_object_that_intersects_mouse()
+			if resource_found.size(): #found resource object and move unit to position
+				var resource_pos:Vector3 = resource_found["position"]
+				for object:Node3D in _player_selection:
+					object.new_path(resource_pos)
+				script_3d_ui.create_expanding_circle(self,resource_pos)
+			else: #if not resource then move units to mouse position
+				move_units_to_mouse()
+			
 
 ## private methods
 func _camera_inputs(camera: script_rts_camera, delta:float) -> void:

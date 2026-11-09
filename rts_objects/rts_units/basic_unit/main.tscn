@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://bw5pykitu26jy"]
 
 [ext_resource type="ArrayMesh" uid="uid://cpm4x47d6rp3s" path="res://rts_objects/rts_units/basic_unit/mesh.tres" id="1_06cpt"]
-[ext_resource type="PackedScene" uid="uid://dcwwemlx315n6" path="res://rts_objects/rts_components/sprite3d_circle_selection.tscn" id="2_hrxf6"]
+[ext_resource type="PackedScene" uid="uid://dcwwemlx315n6" path="res://rts_objects/node_components/sprite3d_circle_selection.tscn" id="2_hrxf6"]
 [ext_resource type="Script" uid="uid://bnbp5dbucdfr8" path="res://rts_objects/rts_units/basic_unit/main.gd" id="2_kkn1d"]
-[ext_resource type="PackedScene" uid="uid://bppnp7tcnlto4" path="res://rts_objects/rts_components/meshinstance3d_selection_aabb.tscn" id="4_dnvy3"]
+[ext_resource type="PackedScene" uid="uid://bppnp7tcnlto4" path="res://rts_objects/node_components/meshinstance3d_selection_aabb.tscn" id="4_dnvy3"]
 
 [node name="BasicUnit01" type="MeshInstance3D" unique_id=838433184]
 mesh = ExtResource("1_06cpt")

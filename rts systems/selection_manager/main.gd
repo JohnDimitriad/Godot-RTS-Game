@@ -26,7 +26,7 @@ func _process(delta: float) -> void:
 ## public methods
 func select_object_by_aabb(object:MeshInstance3D, mouse_pos:Vector2, camera: Camera3D) -> bool:
 	var object_AABB: AABB = object.global_transform * object.mesh.get_aabb()
-	if object_AABB.intersects_ray(camera.project_ray_origin(mouse_pos), camera.project_ray_normal(mouse_pos)):
+	if object_AABB.intersects_ray(camera.global_position, camera.global_position + camera.project_ray_normal(mouse_pos) * camera.far):
 		return true
 	return false
 
